@@ -1,4 +1,4 @@
-package de.sfnkassel.pixelbeamer.server;
+package de.sfnkassel.javaBeam.server;
 
 import java.util.ArrayList;
 import java.util.List;

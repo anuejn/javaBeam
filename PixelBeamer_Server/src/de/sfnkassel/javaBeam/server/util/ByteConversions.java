@@ -1,4 +1,4 @@
-package de.sfnkassel.pixelbeamer.server.util;
+package de.sfnkassel.javaBeam.server.util;
 
 public class ByteConversions {
 	

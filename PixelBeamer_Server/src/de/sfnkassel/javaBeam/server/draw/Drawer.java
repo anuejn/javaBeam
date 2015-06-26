@@ -1,9 +1,9 @@
-package de.sfnkassel.pixelbeamer.server.draw;
+package de.sfnkassel.javaBeam.server.draw;
+
+import static de.sfnkassel.javaBeam.server.Main.*;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-
-import static de.sfnkassel.pixelbeamer.server.Main.*;
 
 public class Drawer {
 	
