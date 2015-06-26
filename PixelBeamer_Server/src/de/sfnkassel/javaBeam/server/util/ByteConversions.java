@@ -20,8 +20,8 @@ public class ByteConversions {
 		return out;
 	}
 	
-	public static Byte[] fromChar(char in){
-		Byte[] out = new Byte[2];
+	public static byte[] fromChar(char in){
+		byte[] out = new byte[2];
 		out[0] = (byte) ((in & 0xff00) >>> 8);
 		out[1] = (byte) (in & 0x00ff);
 		return out;
@@ -32,5 +32,18 @@ public class ByteConversions {
 		out |= (((char)((byte)in[0])) << 8) & 0xff00;
 		out |= ((char)((byte)in[1])) & 0x00ff;
 		return out;
+	}
+	
+	public static byte[] stringToByteArray(String s) {
+		char[] temp = new char[s.length()];
+		s.getChars(0, s.length(), temp, 0);
+		
+		byte[] endOut = new byte[temp.length * 2];
+		for (int i = 0; i < temp.length; i++) {
+			endOut[i] = fromChar(temp[i*2])[0];
+			endOut[i+1] = fromChar(temp[i*2])[1];
+		}
+		
+		return endOut;
 	}
 }
