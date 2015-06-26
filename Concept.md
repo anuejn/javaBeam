@@ -1,5 +1,5 @@
 #Network docu
-Byte 1: Cmd -> 0x01 = Draw a Pixel
+	Byte 1: Cmd -> 0x01 = Draw a Pixel
 					  0x02 = Draw a Rectangle
 	  				  0x03 = Draw a Line
 	 				  0x04 = Draw a Circle
