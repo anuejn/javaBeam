@@ -35,7 +35,7 @@ public class Main extends Application{
 		primaryStage.show();
 		this.drawer = new Drawer(drawCanvas);
 		this.handler = new ConnectionHandler(drawer);
-		handler.run();		
+		handler.start();		
 	}
 		
 	public static void fatal(Exception e){

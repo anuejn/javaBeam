@@ -9,8 +9,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import de.sfnkassel.javaBeam.server.draw.Drawer;
+import javafx.application.Platform;
 
-public class ConnectionHandler implements Runnable {
+public class ConnectionHandler extends Thread {
 
 	private ServerSocket socket;
 	private Socket tmpSocket;
@@ -40,7 +41,12 @@ public class ConnectionHandler implements Runnable {
 				out.write(new byte[]{(byte) 0xAA}, 0, 1);
 				out.flush();
 				
-				drawer.drawCommand(bytes);
+				Platform.runLater(new Runnable(){
+					@Override
+					public void run() {
+						drawer.drawCommand(bytes);
+					}
+				});
 				
 				String cmd = "";
 				for(byte b : bytes){
