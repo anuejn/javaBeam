@@ -1,4 +1,4 @@
-package de.sfnkassel.pixelbeamer.server.net;
+package de.sfnkassel.javaBeam.server.net;
 
 import static de.sfnkassel.javaBeam.server.Main.*;
 
