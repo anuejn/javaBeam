@@ -35,7 +35,8 @@ public class ConnectionHandler extends Thread {
 				in = tmpSocket.getInputStream();
 				out = tmpSocket.getOutputStream();
 				bytes = new Byte[in.available()];
-				for(int i = 0; i < in.available(); i++){
+				int tmp = in.available();
+				for(int i = 0; i < tmp; i++){
 					bytes[i] = (byte) in.read();
 				}
 				out.write(new byte[]{(byte) 0xAA}, 0, 1);

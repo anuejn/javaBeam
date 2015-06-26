@@ -2,6 +2,7 @@ package de.sfnkassel.javaBeam.client;
 
 import java.io.IOException;
 import java.net.Socket;
+
 import de.sfnkassel.javaBeam.server.util.ByteConversions;
 
 public class JavabeamClient {
@@ -14,53 +15,67 @@ public class JavabeamClient {
 	public static void main(String[] args) throws IOException {
 		JavabeamClient beamer = new JavabeamClient("localhost");
 		
-		beamer.drawText(10, 30, 0, 0, 0, "olol");
+		beamer.drawText(10, 30, 0, 0, 0, 255, "olol");
 	}
 
-	public void drawText(int x, int y, int r, int g, int b, String text) throws IOException {
+	public void drawText(int x, int y, int r, int g, int b, int fontsize, String text) throws IOException {
 		byte[] byteText = ByteConversions.stringToByteArray(text);
-		byte[] out = new byte[13 + text.length() * 2];
-		for (int i = 0; i < out.length; i++) {
-			if (i == 0) {
-				out[i] = 0x05;
-			} else if (i == 1) {
-				out[i] = (byte) r;
-			} else if (i == 2) {
-				out[i] = (byte) g;
-			} else if (i == 3) {
-				out[i] = (byte) b;
-			} else if (i == 4 || i == 5) {
-				out[i] = x == 4 ? ByteConversions.fromInt(x)[0] : ByteConversions.fromInt(x)[1];
-			} else if (i == 6 || i == 7) {
-				out[i] = x == 6 ? ByteConversions.fromInt(y)[0] : ByteConversions.fromInt(y)[1];
-			} else if (i > 13) {
-				out[i] = byteText[i - 13];
-			}
+		byte[] out = new byte[14 + byteText.length];
+		out[0] = CMD_DRAW_TEXT;
+		out[1] = (byte) r;
+		out[2] = (byte) g;
+		out[3] = (byte) b;
+		out[4] = ByteConversions.fromInt(x)[0];
+		out[5] = ByteConversions.fromInt(x)[1];
+		out[6] = ByteConversions.fromInt(x)[2];
+		out[7] = ByteConversions.fromInt(x)[3];
+		out[8] = ByteConversions.fromInt(y)[0];
+		out[9] = ByteConversions.fromInt(y)[1];
+		out[10] = ByteConversions.fromInt(y)[2];
+		out[11] = ByteConversions.fromInt(y)[3];
+		out[12] = (byte)fontsize;
+		
+		for (int i = 0; i < byteText.length; i++) {
+			out[i + 13] = byteText[i];
+			out[i + 1 + 13] = byteText[i];
 		}
+		
 		sendToServer(out);
 	}
 
-//	public void colorPixel(int x, int y, int r, int g, int b) {
-//		byte[] out = new byte[];
-//		for (int i = 0; i < out.length; i++) {
-//			if (i == 0) {
-//				out[i] = 0x05;
-//			} else if (i == 1) {
-//				out[i] = (byte) r;
-//			} else if (i == 2) {
-//				out[i] = (byte) g;
-//			} else if (i == 3) {
-//				out[i] = (byte) b;
-//			} else if (i == 4 || i == 5) {
-//				out[i] = x == 4 ? ByteConversions.fromInt(x)[0] : ByteConversions.fromInt(x)[1];
-//			} else if (i == 6 || i == 7) {
-//				out[i] = x == 6 ? ByteConversions.fromInt(y)[0] : ByteConversions.fromInt(y)[1];
-//			} else if (i > 13) {
-//				out[i] = byteText[i - 13];
-//			}
-//		}
-//		sendToServer(out);
-//	}
+	public void colorPixel(int x, int y, int r, int g, int b) throws IOException {
+		byte[] out = new byte[14];
+		out[0] = CMD_DRAW_PIXEL;
+		out[1] = (byte) r;
+		out[2] = (byte) g;
+		out[3] = (byte) b;
+		out[4] = ByteConversions.fromInt(x)[0];
+		out[5] = ByteConversions.fromInt(x)[1];
+		out[6] = ByteConversions.fromInt(x)[2];
+		out[7] = ByteConversions.fromInt(x)[3];
+		out[8] = ByteConversions.fromInt(y)[0];
+		out[9] = ByteConversions.fromInt(y)[1];
+		out[10] = ByteConversions.fromInt(y)[2];
+		out[11] = ByteConversions.fromInt(y)[3];
+		sendToServer(out);
+	}
+	
+	public void drawRectangle(int x, int y, int r, int g, int b) throws IOException {
+		byte[] out = new byte[14];
+		out[0] = CMD_DRAW_PIXEL;
+		out[1] = (byte) r;
+		out[2] = (byte) g;
+		out[3] = (byte) b;
+		out[4] = ByteConversions.fromInt(x)[0];
+		out[5] = ByteConversions.fromInt(x)[1];
+		out[6] = ByteConversions.fromInt(x)[2];
+		out[7] = ByteConversions.fromInt(x)[3];
+		out[8] = ByteConversions.fromInt(y)[0];
+		out[9] = ByteConversions.fromInt(y)[1];
+		out[10] = ByteConversions.fromInt(y)[2];
+		out[11] = ByteConversions.fromInt(y)[3];
+		sendToServer(out);
+	}
 	
 	private void sendToServer(byte[] bytes) throws IOException {
 		Socket connection = new Socket(ip, 8088);
