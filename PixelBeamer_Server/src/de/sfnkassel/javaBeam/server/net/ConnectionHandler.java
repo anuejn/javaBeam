@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import de.sfnkassel.javaBeam.server.Main;
+import de.sfnkassel.javaBeam.server.draw.Drawer;
 
 public class ConnectionHandler implements Runnable {
 
@@ -18,13 +18,12 @@ public class ConnectionHandler implements Runnable {
 	private ByteArrayInputStream in;
 	private Byte[] bytes;
 	private boolean shouldRun = false;
-	private Main main;
+	private Drawer drawer;
 	
-	public ConnectionHandler(Main main) throws IOException{
+	public ConnectionHandler(Drawer drawer) throws IOException{
 		socket = new ServerSocket(8088);
 		shouldRun = true;
-		this.main = main;
-		this.run();
+		this.drawer = drawer;
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class ConnectionHandler implements Runnable {
 				out.write(new byte[]{(byte) 0xAA}, 0, 1);
 				out.flush();
 				
-				main.recievedDrawCall(bytes);
+				drawer.drawCommand(bytes);
 				
 				String cmd = "";
 				for(byte b : bytes){

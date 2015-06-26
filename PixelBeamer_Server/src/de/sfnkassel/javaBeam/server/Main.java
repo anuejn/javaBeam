@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.sfnkassel.javaBeam.server.draw.Drawer;
+import de.sfnkassel.javaBeam.server.net.ConnectionHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +16,7 @@ public class Main extends Application{
 	private StackPane mainPane = new StackPane();
 	private Canvas drawCanvas;
 	private Drawer drawer;
+	private ConnectionHandler handler;
 	
 	private static List<Exception> exceptions = new ArrayList<Exception>();
 	
@@ -32,12 +34,10 @@ public class Main extends Application{
 		primaryStage.setScene(new Scene(mainPane));
 		primaryStage.show();
 		this.drawer = new Drawer(drawCanvas);
+		this.handler = new ConnectionHandler(drawer);
+		handler.run();		
 	}
-	
-	public void recievedDrawCall(Byte[] command){
-		drawer.drawCommand(command);
-	}
-	
+		
 	public static void fatal(Exception e){
 		System.err.println("[SEVERE]");
 		e.printStackTrace(System.err);
