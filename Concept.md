@@ -1,9 +1,9 @@
 #Network docu
 	Byte 1: Cmd -> 0x01 = Draw a Pixel
-					  0x02 = Draw a Rectangle
-	  				  0x03 = Draw a Line
-	 				  0x04 = Draw a Circle
-	 				  0x05 = Draw a Text
+		       0x02 = Draw a Rectangle
+	  	       0x03 = Draw a Line
+	 	       0x04 = Draw a Circle
+	 	       0x05 = Draw a Text
 	 
 	 Byte 2 - 4: Color -> r, g, b
 	 
