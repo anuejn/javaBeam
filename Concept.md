@@ -22,3 +22,6 @@
 	 Byte 13 (bei Text): font size
 	 
 	 Byte 21 (bei Line): Line Dicke
+
+#Network Low-Level
+	Port: 65783
