@@ -21,7 +21,7 @@ public class ConnectionHandler implements Runnable {
 	private Main main;
 	
 	public ConnectionHandler(Main main) throws IOException{
-		socket = new ServerSocket(65783);
+		socket = new ServerSocket(8088);
 		shouldRun = true;
 		this.main = main;
 		this.run();

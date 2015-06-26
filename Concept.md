@@ -24,4 +24,4 @@
 	 Byte 21 (bei Line): Line Dicke
 
 #Network Low-Level
-	Port: 65783
+	Port: 8088
