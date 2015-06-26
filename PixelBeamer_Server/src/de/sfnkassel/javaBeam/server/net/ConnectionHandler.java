@@ -2,9 +2,9 @@ package de.sfnkassel.javaBeam.server.net;
 
 import static de.sfnkassel.javaBeam.server.Main.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -15,8 +15,8 @@ public class ConnectionHandler extends Thread {
 
 	private ServerSocket socket;
 	private Socket tmpSocket;
-	private ByteArrayOutputStream out;
-	private ByteArrayInputStream in;
+	private OutputStream out;
+	private InputStream in;
 	private Byte[] bytes;
 	private boolean shouldRun = false;
 	private Drawer drawer;
@@ -32,8 +32,8 @@ public class ConnectionHandler extends Thread {
 		while(shouldRun){
 			try {
 				tmpSocket = socket.accept();
-				in = (ByteArrayInputStream) tmpSocket.getInputStream();
-				out = (ByteArrayOutputStream) tmpSocket.getOutputStream();
+				in = tmpSocket.getInputStream();
+				out = tmpSocket.getOutputStream();
 				bytes = new Byte[in.available()];
 				for(int i = 0; i < in.available(); i++){
 					bytes[i] = (byte) in.read();
