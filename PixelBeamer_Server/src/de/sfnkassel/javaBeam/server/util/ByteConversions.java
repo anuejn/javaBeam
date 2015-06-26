@@ -35,15 +35,14 @@ public class ByteConversions {
 	}
 	
 	public static byte[] stringToByteArray(String s) {
-		char[] temp = new char[s.length()];
-		s.getChars(0, s.length(), temp, 0);
 		
-		byte[] endOut = new byte[temp.length * 2];
-		for (int i = 0; i < temp.length; i++) {
-			endOut[i] = fromChar(temp[i*2])[0];
-			endOut[i+1] = fromChar(temp[i*2])[1];
+		byte[] out = new byte[s.length() * 2];
+		
+		for(int i = 0; i < s.length(); i++){
+			out[i] = fromChar(s.charAt(i))[0];
+			out[i + 1] = fromChar(s.charAt(i))[1];
 		}
 		
-		return endOut;
+		return out;
 	}
 }
