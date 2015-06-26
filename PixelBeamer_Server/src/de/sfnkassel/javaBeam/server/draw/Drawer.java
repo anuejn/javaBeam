@@ -1,9 +1,12 @@
 package de.sfnkassel.javaBeam.server.draw;
 
 import static de.sfnkassel.javaBeam.server.Main.*;
+import static de.sfnkassel.javaBeam.server.util.ByteConversions.*;
 
+import de.sfnkassel.javaBeam.server.util.ArrayUtil;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Drawer {
 	
@@ -13,9 +16,11 @@ public class Drawer {
 		graphics = canvas.getGraphicsContext2D();
 	}
 	
-	public void drawCommand(byte[] command) throws UnsupportedOperationException{
+	public void drawCommand(Byte[] command) throws UnsupportedOperationException{
 		switch(command[0]){
 			case CMD_DRAW_PIXEL:
+				graphics.setFill(new Color(((double)command[1])/255, ((double)command[2])/255, ((double)command[3])/255, 1));
+				graphics.fillRect(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), 1, 1);
 				break;
 			case CMD_DRAW_RECTANGLE:
 				break;
@@ -40,24 +45,4 @@ public class Drawer {
 	public static final byte CMD_DRAW_TEXT = 0x05;
 	
 	public static final byte INVALID = 0x00;
-	
-	/*
-	 * Byte 1: Cmd -> 0x01 = Draw a Pixel
-	 * 				  0x02 = Draw a Rectangle
-	 * 				  0x03 = Draw a Line
-	 * 				  0x04 = Draw a Circle
-	 * 				  0x05 = Draw a Text
-	 * 
-	 * Byte 2 - 4: Color -> r, g, b
-	 * 
-	 * Byte 5 - 8: X-Pos. 1 | Int
-	 * 
-	 * Byte 9 - 12: Y-Pos. 1 | Int
-	 * 
-	 * Byte 13 - 20 (bei Rec, Line): X 2, Y 2 | Int
-	 * 
-	 * Byte 13 - 16 (bei Circle): Radius | Int
-	 * 
-	 * Byte 13f (je 2, bei Text): Chars | Char
-	 */
 }
