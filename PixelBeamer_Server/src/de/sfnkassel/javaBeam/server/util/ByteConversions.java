@@ -2,8 +2,8 @@ package de.sfnkassel.javaBeam.server.util;
 
 public class ByteConversions {
 	
-	public static byte[] fromInt(int in){
-		byte[] out = new byte[4];
+	public static Byte[] fromInt(int in){
+		Byte[] out = new Byte[4];
 		out[0] = (byte) ((in & 0xff000000) >>> 24);
 		out[1] = (byte) ((in & 0x00ff0000) >>> 16);
 		out[2] = (byte) ((in & 0x0000ff00) >>> 8);
@@ -11,7 +11,7 @@ public class ByteConversions {
 		return out;
 	}
 	
-	public static int intFromByteArray(byte[] in){
+	public static int intFromByteArray(Byte[] in){
 		int out = 0;
 		out |= (((int)in[0]) << 24) & 0xff000000;
 		out |= (((int)in[1]) << 16) & 0x00ff0000;
@@ -20,17 +20,17 @@ public class ByteConversions {
 		return out;
 	}
 	
-	public static byte[] fromChar(char in){
-		byte[] out = new byte[2];
+	public static Byte[] fromChar(char in){
+		Byte[] out = new Byte[2];
 		out[0] = (byte) ((in & 0xff00) >>> 8);
 		out[1] = (byte) (in & 0x00ff);
 		return out;
 	}
 	
-	public static char charFromByteArray(byte[] in){
+	public static char charFromByteArray(Byte[] in){
 		char out = 0;
-		out |= (((char)in[0]) << 8) & 0xff00;
-		out |= ((char)in[1]) & 0x00ff;
+		out |= (((char)((byte)in[0])) << 8) & 0xff00;
+		out |= ((char)((byte)in[1])) & 0x00ff;
 		return out;
 	}
 }
