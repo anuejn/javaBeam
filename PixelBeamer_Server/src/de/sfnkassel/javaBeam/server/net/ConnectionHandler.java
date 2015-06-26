@@ -55,11 +55,17 @@ public class ConnectionHandler extends Thread {
 				}
 				info("Recieved Draw Call: " + cmd.substring(0, cmd.length() - 3));
 			} catch (IOException e) {
-				fatal(e);
+				if(socket.isClosed())
+					info("Socket Closed during Bind-Phase");
+				else
+					fatal(e);
 			} finally {
 				try {
-					tmpSocket.close();
+					if (tmpSocket != null)
+						tmpSocket.close();
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
 					fatal(e);
 				}
 			}
@@ -68,6 +74,11 @@ public class ConnectionHandler extends Thread {
 	
 	public void proposeStop(){
 		shouldRun = false;
+		try {
+			socket.close();
+		} catch (IOException e) {
+			fatal(e);
+		}
 	}
 	
 }

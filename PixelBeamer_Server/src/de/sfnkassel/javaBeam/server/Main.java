@@ -33,6 +33,10 @@ public class Main extends Application{
 		mainPane.getChildren().add(drawCanvas);
 		primaryStage.setScene(new Scene(mainPane));
 		primaryStage.show();
+		primaryStage.setOnCloseRequest(event -> {
+		    info("Closing Application.");
+		    handler.proposeStop();
+		});
 		this.drawer = new Drawer(drawCanvas);
 		this.handler = new ConnectionHandler(drawer);
 		handler.start();		
