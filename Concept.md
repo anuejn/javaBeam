@@ -11,10 +11,14 @@
 	 
 	 Byte 9 - 12: Y-Pos. 1 | Int
 	 
-	 Byte 13 - 20 (bei Rec, Line): X 2, Y 2 | Int
+	 Byte 13 - 20 (bei Rec): width, height | Int
+	 
+	 Byte 13 - 20 (bei Line): x2, y2 | Int
 	 
 	 Byte 13 - 16 (bei Circle): Radius | Int
 	 
-	 Byte 13f (je 2, bei Text): Chars | Char
+	 Byte 14f (je 2, bei Text): Chars | Char
+	 
+	 Byte 13 (bei Text): font size
 	 
 	 Byte 21 (bei Line): Line Dicke
