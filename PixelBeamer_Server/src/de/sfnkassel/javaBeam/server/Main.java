@@ -39,11 +39,13 @@ public class Main extends Application{
 	}
 	
 	public static void fatal(Exception e){
+		System.err.println("[SEVERE]");
 		e.printStackTrace(System.err);
 		exceptions.add(e);
 	}
 	
 	public static void info(String msg){
+		System.out.println("[INFO]");
 		System.out.println(msg);
 	}
 }
