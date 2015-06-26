@@ -16,3 +16,5 @@
 	 Byte 13 - 16 (bei Circle): Radius | Int
 	 
 	 Byte 13f (je 2, bei Text): Chars | Char
+	 
+	 Byte 21 (bei Line): Line Dicke
