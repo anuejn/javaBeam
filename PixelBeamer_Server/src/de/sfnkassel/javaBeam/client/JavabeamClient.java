@@ -16,11 +16,17 @@ public class JavabeamClient {
 	public static void main(String[] args) throws IOException {
 		JavabeamClient beamer = new JavabeamClient("localhost");
 		
+		
 		beamer.drawText(100, 300, 0, 127, 127, 30, "Hello, World");
+		beamer.colorPixel(0, 0, 0, 0, 0);
+		beamer.drawCircle(300, 300, 50, 0, 0, 0);
+		beamer.drawLine(0, 0, 500, 500, 10, 255, 0, 0);
+		beamer.drawRectangle(400, 10, 20, 20, 0, 0, 255);
+		
 	}
 
 	public void colorPixel(int x, int y, int r, int g, int b) throws IOException {
-		byte[] out = new byte[14];
+		byte[] out = new byte[12];
 		out[0] = SpriteType.CMD_DRAW_PIXEL;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
@@ -37,7 +43,7 @@ public class JavabeamClient {
 	}
 	
 	public void drawRectangle(int x, int y, int width, int height, int r, int g, int b) throws IOException {
-		byte[] out = new byte[14];
+		byte[] out = new byte[20];
 		out[0] = SpriteType.CMD_DRAW_RECTANGLE;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
@@ -61,8 +67,8 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
-	public void drawLine(int x1, int y1, int x2, int y2, int r, int g, int b) throws IOException {
-		byte[] out = new byte[14];
+	public void drawLine(int x1, int y1, int x2, int y2, int thickness, int r, int g, int b) throws IOException {
+		byte[] out = new byte[21];
 		out[0] = SpriteType.CMD_DRAW_LINE;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
@@ -83,27 +89,28 @@ public class JavabeamClient {
 		out[17] = ByteConversions.fromInt(y2)[1];
 		out[18] = ByteConversions.fromInt(y2)[2];
 		out[19] = ByteConversions.fromInt(y2)[3];
+		out[20] = (byte) thickness;
 		sendToServer(out);
 	}
 	
-	public void drawCircle(int x1, int y1, int rad, int r, int g, int b) throws IOException {
-		byte[] out = new byte[14];
+	public void drawCircle(int x, int y, int rad, int r, int g, int b) throws IOException {
+		byte[] out = new byte[16];
 		out[0] = SpriteType.CMD_DRAW_CIRCLE;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
 		out[3] = (byte) b;
-		out[4] = ByteConversions.fromInt(x1)[0];
-		out[5] = ByteConversions.fromInt(x1)[1];
-		out[6] = ByteConversions.fromInt(x1)[2];
-		out[7] = ByteConversions.fromInt(x1)[3];
-		out[8] = ByteConversions.fromInt(y1)[0];
-		out[9] = ByteConversions.fromInt(y1)[1];
-		out[10] = ByteConversions.fromInt(y1)[2];
-		out[11] = ByteConversions.fromInt(y1)[3];
-		out[12] = ByteConversions.fromInt(r)[0];
-		out[13] = ByteConversions.fromInt(r)[1];
-		out[14] = ByteConversions.fromInt(r)[2];
-		out[15] = ByteConversions.fromInt(r)[3];
+		out[4] = ByteConversions.fromInt(x)[0];
+		out[5] = ByteConversions.fromInt(x)[1];
+		out[6] = ByteConversions.fromInt(x)[2];
+		out[7] = ByteConversions.fromInt(x)[3];
+		out[8] = ByteConversions.fromInt(y)[0];
+		out[9] = ByteConversions.fromInt(y)[1];
+		out[10] = ByteConversions.fromInt(y)[2];
+		out[11] = ByteConversions.fromInt(y)[3];
+		out[12] = ByteConversions.fromInt(rad)[0];
+		out[13] = ByteConversions.fromInt(rad)[1];
+		out[14] = ByteConversions.fromInt(rad)[2];
+		out[15] = ByteConversions.fromInt(rad)[3];
 		sendToServer(out);
 	}
 	
