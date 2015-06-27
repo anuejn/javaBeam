@@ -1,4 +1,4 @@
-package de.sfnkassel.javaBeam.server.util;
+package de.sfnkassel.javaBeam.util;
 
 public class ByteConversions {
 	

@@ -3,8 +3,8 @@ package de.sfnkassel.javaBeam.client;
 import java.io.IOException;
 import java.net.Socket;
 
-import de.sfnkassel.javaBeam.server.util.ByteConversions;
-import de.sfnkassel.javaBeam.server.util.SpriteType;
+import de.sfnkassel.javaBeam.util.ByteConversions;
+import de.sfnkassel.javaBeam.util.SpriteType;
 
 public class JavabeamClient {
 	private String ip;

@@ -1,5 +1,7 @@
 package de.sfnkassel.javaBeam.server;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -61,14 +63,27 @@ public class Main extends Application{
 				handler.commands.clear();
 			}
 		}, 100, 100);
+		
+		initDrawing();
 	}
 	
 	private void initDrawing(){
+		String internalIp = "";
 		try {
 			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
 			while(netInterfaces.hasMoreElements()){
 				NetworkInterface netInterface = netInterfaces.nextElement();
-				
+				if(!netInterface.isUp() || netInterface.isLoopback() || netInterface.isVirtual()) continue;
+				Enumeration<InetAddress> addrs = netInterface.getInetAddresses();
+				while(addrs.hasMoreElements()){
+					InetAddress addr = addrs.nextElement();
+					if(!addr.isLoopbackAddress() && addr instanceof Inet4Address){
+						internalIp = addr.toString();
+						break;
+					}
+				}
+				if(!internalIp.equals(""))
+					break;
 			}
 		} catch (SocketException e) {
 			fatal(e);
