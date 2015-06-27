@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import de.sfnkassel.javaBeam.server.util.ArrayUtil;
+import de.sfnkassel.javaBeam.util.ArrayUtil;
 
 
 public class RequestProcessor extends Thread {

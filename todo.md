@@ -1,10 +1,10 @@
 #ToDo
 
 - Server
-  - fix arrayIndexOutOfBounds Exception
-  - make network multithreaded
-  - activate antialiasing
-  - add default display ip and other hints (perhaps example code?)
+  - fix arrayIndexOutOfBounds Exception (done)
+  - make network multithreaded (done)
+  - activate antialiasing (done)
+  - add default display ip and other hints (perhaps example code?) (In progress)
   
 - Client
   - Add unimplemented methods (done)
