@@ -1,6 +1,9 @@
 package de.sfnkassel.javaBeam.server;
 
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,6 +11,7 @@ import java.util.TimerTask;
 import de.sfnkassel.javaBeam.server.draw.Drawer;
 import de.sfnkassel.javaBeam.server.net.ConnectionHandler;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
@@ -49,10 +53,26 @@ public class Main extends Application{
 		drawSchedule.schedule(new TimerTask(){
 			@Override
 			public void run() {
-				for(Byte[] cmd : handler.commands)
-					drawer.drawCommand(cmd);
+				for(Byte[] cmd : handler.commands){
+					Platform.runLater(() -> {
+						drawer.drawCommand(cmd);
+					});
+				}
+				handler.commands.clear();
 			}
 		}, 100, 100);
+	}
+	
+	private void initDrawing(){
+		try {
+			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+			while(netInterfaces.hasMoreElements()){
+				NetworkInterface netInterface = netInterfaces.nextElement();
+				
+			}
+		} catch (SocketException e) {
+			fatal(e);
+		}
 	}
 		
 	public static void fatal(Exception e){
