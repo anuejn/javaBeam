@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import de.sfnkassel.javaBeam.server.util.ByteConversions;
+import de.sfnkassel.javaBeam.server.util.SpriteType;
 
 public class JavabeamClient {
 	private String ip;
@@ -20,7 +21,7 @@ public class JavabeamClient {
 
 	public void colorPixel(int x, int y, int r, int g, int b) throws IOException {
 		byte[] out = new byte[14];
-		out[0] = CMD_DRAW_PIXEL;
+		out[0] = SpriteType.CMD_DRAW_PIXEL;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
 		out[3] = (byte) b;
@@ -37,7 +38,7 @@ public class JavabeamClient {
 	
 	public void drawRectangle(int x, int y, int width, int height, int r, int g, int b) throws IOException {
 		byte[] out = new byte[14];
-		out[0] = CMD_DRAW_RECTANGLE;
+		out[0] = SpriteType.CMD_DRAW_RECTANGLE;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
 		out[3] = (byte) b;
@@ -62,7 +63,7 @@ public class JavabeamClient {
 	
 	public void drawLine(int x1, int y1, int x2, int y2, int r, int g, int b) throws IOException {
 		byte[] out = new byte[14];
-		out[0] = CMD_DRAW_LINE;
+		out[0] = SpriteType.CMD_DRAW_LINE;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
 		out[3] = (byte) b;
@@ -87,7 +88,7 @@ public class JavabeamClient {
 	
 	public void drawCircle(int x1, int y1, int rad, int r, int g, int b) throws IOException {
 		byte[] out = new byte[14];
-		out[0] = CMD_DRAW_CIRCLE;
+		out[0] = SpriteType.CMD_DRAW_CIRCLE;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
 		out[3] = (byte) b;
@@ -109,7 +110,7 @@ public class JavabeamClient {
 	public void drawText(int x, int y, int r, int g, int b, int fontsize, String text) throws IOException {
 		byte[] byteText = ByteConversions.stringToByteArray(text);
 		byte[] out = new byte[13 + byteText.length];
-		out[0] = CMD_DRAW_TEXT;
+		out[0] = SpriteType.CMD_DRAW_TEXT;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
 		out[3] = (byte) b;
@@ -135,14 +136,8 @@ public class JavabeamClient {
 		connection.getOutputStream().write(bytes);
 		if(connection.getInputStream().read() != 0xAA) {
 			connection.close();
-			throw new IOException();
+			throw new IOException("cmd not sucess");
 		}
 		connection.close();
 	}
-
-	public static final byte CMD_DRAW_PIXEL = 0x01;
-	public static final byte CMD_DRAW_RECTANGLE = 0x02;
-	public static final byte CMD_DRAW_LINE = 0x03;
-	public static final byte CMD_DRAW_CIRCLE = 0x04;
-	public static final byte CMD_DRAW_TEXT = 0x05;
 }
