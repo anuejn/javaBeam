@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import de.sfnkassel.javaBeam.server.draw.Drawer;
+import de.sfnkassel.javaBeam.server.util.ArrayUtil;
 import javafx.application.Platform;
 
 public class ConnectionHandler extends Thread {
@@ -41,12 +42,7 @@ public class ConnectionHandler extends Thread {
 				out.write(new byte[]{(byte) 0xAA}, 0, 1);
 				out.flush();
 				
-				Platform.runLater(new Runnable(){
-					@Override
-					public void run() {
-						drawer.drawCommand(bytes);
-					}
-				});
+				drawCall(ArrayUtil.deepCopyArray(bytes));
 				
 				String cmd = "";
 				for(byte b : bytes){
@@ -69,6 +65,15 @@ public class ConnectionHandler extends Thread {
 				}
 			}
 		}
+	}
+	
+	private void drawCall(Byte[] command){
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				drawer.drawCommand(bytes);
+			}
+		});
 	}
 	
 	public void proposeStop(){
