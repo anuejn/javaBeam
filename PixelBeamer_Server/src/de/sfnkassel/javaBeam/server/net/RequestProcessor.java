@@ -26,6 +26,7 @@ public class RequestProcessor extends Thread {
 		try {
 			InputStream in = socket.getInputStream();
 			OutputStream out = socket.getOutputStream();
+			Thread.sleep(100);
 			Byte[] bytes = new Byte[in.available()];
 			int available = in.available();
 			for (int i = 0; i < available; i++ ) {
@@ -42,6 +43,8 @@ public class RequestProcessor extends Thread {
 			}
 			info("Recieved Draw Call: " + cmd);
 		} catch (IOException e) {
+			fatal(e);
+		} catch (InterruptedException e) {
 			fatal(e);
 		}
 		finally {
