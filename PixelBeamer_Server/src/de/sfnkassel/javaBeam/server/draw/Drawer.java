@@ -5,10 +5,10 @@ import static de.sfnkassel.javaBeam.util.ByteConversions.*;
 import static de.sfnkassel.javaBeam.util.SpriteType.*;
 
 import de.sfnkassel.javaBeam.util.ArrayUtil;
-import de.sfnkassel.javaBeam.util.ByteConversions;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Drawer {
@@ -28,24 +28,24 @@ public class Drawer {
 	public void drawCommand(Byte[] command) throws UnsupportedOperationException{
 		switch(command[0]){
 			case CMD_DRAW_PIXEL:
-				graphics.setFill(ByteConversions.colorFromByteArray(command, 1));
+				graphics.setFill(new Color(Math.abs(((double)command[1])/255), Math.abs(((double)command[2])/255), Math.abs(((double)command[3])/255), 1));
 				graphics.fillRect(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), 1, 1);
 				break;
 			case CMD_DRAW_RECTANGLE:
-				graphics.setFill(ByteConversions.colorFromByteArray(command, 1));
+				graphics.setFill(new Color(Math.abs(((double)command[1])/255), Math.abs(((double)command[2])/255), Math.abs(((double)command[3])/255), 1));
 				graphics.fillRect(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 16, 4)));
 				break;
 			case CMD_DRAW_LINE:
-				graphics.setStroke(ByteConversions.colorFromByteArray(command, 1));
+				graphics.setStroke(new Color(Math.abs(((double)command[1])/255), Math.abs(((double)command[2])/255), Math.abs(((double)command[3])/255), 1));
 				graphics.setLineWidth(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 20, 4)));
 				graphics.strokeLine(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 16, 4)));
 				break;
 			case CMD_DRAW_CIRCLE:
-				graphics.setFill(ByteConversions.colorFromByteArray(command, 1));
+				graphics.setFill(new Color(Math.abs(((double)command[1])/255), Math.abs(((double)command[2])/255), Math.abs(((double)command[3])/255), 1));
 				graphics.fillOval(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)) - intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)) - intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)));
 				break;
 			case CMD_DRAW_TEXT:
-				graphics.setFill(ByteConversions.colorFromByteArray(command, 1));
+				graphics.setFill(new Color(Math.abs(((double)command[1])/255), Math.abs(((double)command[2])/255), Math.abs(((double)command[3])/255), 1));
 				graphics.setFont(Font.font ("Calibri", command[12]));
 				String str = "";
 				for(int i = 13; i < command.length; i += 2){
