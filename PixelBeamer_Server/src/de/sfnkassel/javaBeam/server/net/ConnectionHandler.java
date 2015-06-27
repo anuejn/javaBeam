@@ -7,10 +7,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.sfnkassel.javaBeam.server.draw.Drawer;
 import de.sfnkassel.javaBeam.server.util.ArrayUtil;
-import javafx.application.Platform;
 
 public class ConnectionHandler extends Thread {
 
@@ -20,12 +21,11 @@ public class ConnectionHandler extends Thread {
 	private InputStream in;
 	private Byte[] bytes;
 	private boolean shouldRun = false;
-	private Drawer drawer;
+	public List<Byte[]> commands = new ArrayList<Byte[]>();
 	
 	public ConnectionHandler(Drawer drawer) throws IOException{
 		socket = new ServerSocket(8088);
 		shouldRun = true;
-		this.drawer = drawer;
 	}
 
 	@Override
@@ -36,19 +36,20 @@ public class ConnectionHandler extends Thread {
 				in = tmpSocket.getInputStream();
 				out = tmpSocket.getOutputStream();
 				bytes = new Byte[in.available()];
-				for(int i = 0; i < in.available(); i++){
+				int available = in.available();
+				for(int i = 0; i < available; i++){
 					bytes[i] = (byte) in.read();
 				}
 				out.write(new byte[]{(byte) 0xAA}, 0, 1);
 				out.flush();
 				
-				drawCall(ArrayUtil.deepCopyArray(bytes));
+				commands.add(ArrayUtil.deepCopyArray(bytes));
 				
 				String cmd = "";
 				for(byte b : bytes){
 					cmd += b + "; ";
 				}
-				info("Recieved Draw Call: " + cmd.substring(0, cmd.length() - 3));
+				info("Recieved Draw Call: " + cmd);
 			} catch (IOException e) {
 				if(socket.isClosed())
 					info("Socket Closed during Bind-Phase");
@@ -65,15 +66,6 @@ public class ConnectionHandler extends Thread {
 				}
 			}
 		}
-	}
-	
-	private void drawCall(Byte[] command){
-		Platform.runLater(new Runnable(){
-			@Override
-			public void run() {
-				drawer.drawCommand(bytes);
-			}
-		});
 	}
 	
 	public void proposeStop(){
