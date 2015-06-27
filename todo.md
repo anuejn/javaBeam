@@ -2,9 +2,9 @@
 
 - Server
   - fix arrayIndexOutOfBounds Exception (done)
-  - make network multithreaded
+  - make network multithreaded (done)
   - activate antialiasing (done)
-  - add default display ip and other hints (perhaps example code?)
+  - add default display ip and other hints (perhaps example code?) (In progress)
   
 - Client
   - Add unimplemented methods (done)
