@@ -39,8 +39,8 @@ public class ByteConversions {
 		byte[] out = new byte[s.length() * 2];
 		
 		for(int i = 0; i < s.length(); i++){
-			out[i] = fromChar(s.charAt(i))[0];
-			out[i + 1] = fromChar(s.charAt(i))[1];
+			out[i*2] = fromChar(s.charAt(i))[0];
+			out[(i*2) + 1] = fromChar(s.charAt(i))[1];
 		}
 		
 		return out;

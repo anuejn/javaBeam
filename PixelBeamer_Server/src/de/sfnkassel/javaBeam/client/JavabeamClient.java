@@ -15,12 +15,12 @@ public class JavabeamClient {
 	public static void main(String[] args) throws IOException {
 		JavabeamClient beamer = new JavabeamClient("localhost");
 		
-		beamer.drawText(10, 30, 0, 0, 0, 127, "olol");
+		beamer.drawText(10, 30, 10, 10, 10, 20, "ABab");
 	}
 
 	public void drawText(int x, int y, int r, int g, int b, int fontsize, String text) throws IOException {
 		byte[] byteText = ByteConversions.stringToByteArray(text);
-		byte[] out = new byte[14 + byteText.length];
+		byte[] out = new byte[13 + byteText.length];
 		out[0] = CMD_DRAW_TEXT;
 		out[1] = (byte) r;
 		out[2] = (byte) g;
@@ -37,7 +37,6 @@ public class JavabeamClient {
 		
 		for (int i = 0; i < byteText.length; i++) {
 			out[i + 13] = byteText[i];
-			out[i + 1 + 13] = byteText[i];
 		}
 		
 		sendToServer(out);
