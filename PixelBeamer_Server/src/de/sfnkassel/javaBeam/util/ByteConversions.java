@@ -49,7 +49,6 @@ public class ByteConversions {
 	}
 	
 	public static int colorPartFromByte(byte in) {
-		System.err.println(in < 0 ? 127 - in : in);
 		return in < 0 ? 127 - in : in;
 	}
 	
