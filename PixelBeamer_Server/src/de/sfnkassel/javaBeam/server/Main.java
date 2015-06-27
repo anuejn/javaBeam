@@ -33,18 +33,19 @@ public class Main extends Application{
 		drawCanvas.widthProperty().bind(mainPane.widthProperty());
 		drawCanvas.heightProperty().bind(mainPane.heightProperty());
 		mainPane.getChildren().add(drawCanvas);
+		Timer drawSchedule = new Timer();
 		primaryStage.setScene(new Scene(mainPane));
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(event -> {
 		    info("Closing Application.");
 		    handler.proposeStop();
+		    drawSchedule.cancel();
 		});
 		
 		this.drawer = new Drawer(drawCanvas);
 		this.handler = new ConnectionHandler(drawer);
 		handler.start();
 		
-		Timer drawSchedule = new Timer();
 		drawSchedule.schedule(new TimerTask(){
 			@Override
 			public void run() {
