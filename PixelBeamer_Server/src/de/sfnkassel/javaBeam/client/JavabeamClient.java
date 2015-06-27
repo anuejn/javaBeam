@@ -15,7 +15,7 @@ public class JavabeamClient {
 	public static void main(String[] args) throws IOException {
 		JavabeamClient beamer = new JavabeamClient("localhost");
 		
-		beamer.drawText(10, 30, 0, 0, 0, 255, "olol");
+		beamer.drawText(10, 30, 0, 0, 0, 127, "olol");
 	}
 
 	public void drawText(int x, int y, int r, int g, int b, int fontsize, String text) throws IOException {

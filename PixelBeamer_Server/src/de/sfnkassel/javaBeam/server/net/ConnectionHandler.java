@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 import de.sfnkassel.javaBeam.server.draw.Drawer;
 import javafx.application.Platform;
@@ -17,7 +18,6 @@ public class ConnectionHandler extends Thread {
 	private Socket tmpSocket;
 	private OutputStream out;
 	private InputStream in;
-	private Byte[] bytes;
 	private boolean shouldRun = false;
 	private Drawer drawer;
 	
@@ -30,6 +30,7 @@ public class ConnectionHandler extends Thread {
 	@Override
 	public void run() {
 		while(shouldRun){
+			Byte[] bytes;
 			try {
 				tmpSocket = socket.accept();
 				in = tmpSocket.getInputStream();
@@ -42,12 +43,7 @@ public class ConnectionHandler extends Thread {
 				out.write(new byte[]{(byte) 0xAA}, 0, 1);
 				out.flush();
 				
-				Platform.runLater(new Runnable(){
-					@Override
-					public void run() {
-						drawer.drawCommand(bytes);
-					}
-				});
+				callDrawing(Arrays.copyOf(bytes, bytes.length));			
 				
 				String cmd = "";
 				for(byte b : bytes){
@@ -70,6 +66,15 @@ public class ConnectionHandler extends Thread {
 				}
 			}
 		}
+	}
+	
+	private void callDrawing(Byte[] command){
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				drawer.drawCommand(command);
+			}
+		});
 	}
 	
 	public void proposeStop(){

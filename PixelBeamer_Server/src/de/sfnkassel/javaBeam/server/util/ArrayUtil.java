@@ -6,4 +6,9 @@ public class ArrayUtil {
 	public static <T extends Object> T[] getSubarray(T[] array, int start, int lenght){
 		return Arrays.copyOfRange(array, start, start+lenght);
 	}
+	
+	public static <T extends Object> T[] arrayDeepCopy(T[] array, int start, int lenght){
+		return array;
+	}
 }
+
