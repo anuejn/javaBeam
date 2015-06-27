@@ -2,6 +2,8 @@ package de.sfnkassel.javaBeam.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.sfnkassel.javaBeam.server.draw.Drawer;
 import de.sfnkassel.javaBeam.server.net.ConnectionHandler;
@@ -37,9 +39,19 @@ public class Main extends Application{
 		    info("Closing Application.");
 		    handler.proposeStop();
 		});
+		
 		this.drawer = new Drawer(drawCanvas);
 		this.handler = new ConnectionHandler(drawer);
-		handler.start();		
+		handler.start();
+		
+		Timer drawSchedule = new Timer();
+		drawSchedule.schedule(new TimerTask(){
+			@Override
+			public void run() {
+				for(Byte[] cmd : handler.commands)
+					drawer.drawCommand(cmd);
+			}
+		}, 100, 100);
 	}
 		
 	public static void fatal(Exception e){
