@@ -37,7 +37,7 @@ public class Drawer {
 				break;
 			case CMD_DRAW_LINE:
 				graphics.setStroke(ByteConversions.colorFromByteArray(command, 1));
-				graphics.setLineWidth(ByteConversions.colorPartFromByte(command[20]));
+				graphics.setLineWidth(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 20, 4)));
 				graphics.strokeLine(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 16, 4)));
 				break;
 			case CMD_DRAW_CIRCLE:
