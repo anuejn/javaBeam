@@ -6,6 +6,7 @@ import static de.sfnkassel.javaBeam.server.util.ByteConversions.*;
 import de.sfnkassel.javaBeam.server.util.ArrayUtil;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -16,6 +17,11 @@ public class Drawer {
 	public Drawer(Canvas canvas){
 		graphics = canvas.getGraphicsContext2D();
 		graphics.setFont(Font.font ("Calibri", 20));
+		BoxBlur blur = new BoxBlur();
+	    blur.setWidth(1);
+	    blur.setHeight(1);
+	    blur.setIterations(1);
+	    graphics.setEffect(blur);
 	}
 	
 	public void drawCommand(Byte[] command) throws UnsupportedOperationException{
@@ -38,13 +44,13 @@ public class Drawer {
 				graphics.fillOval(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)) - intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)) - intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)));
 				break;
 			case CMD_DRAW_TEXT:
-				graphics.setStroke(new Color(((double)command[1])/255, ((double)command[2])/255, ((double)command[3])/255, 1));
+				graphics.setFill(new Color(((double)command[1])/255, ((double)command[2])/255, ((double)command[3])/255, 1));
 				graphics.setFont(Font.font ("Calibri", command[12]));
 				String str = "";
 				for(int i = 13; i < command.length; i += 2){
 					str += charFromByteArray(ArrayUtil.<Byte>getSubarray(command, i, 2));
 				}
-				graphics.strokeText(str, intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)));
+				graphics.fillText(str, intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)));
 				break;
 			case INVALID:
 				info("Draw command recieved that was marked Invalid.");

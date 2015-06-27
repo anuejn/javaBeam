@@ -51,6 +51,7 @@ public class Main extends Application{
 			public void run() {
 				for(Byte[] cmd : handler.commands)
 					drawer.drawCommand(cmd);
+				handler.commands.clear();
 			}
 		}, 100, 100);
 	}
