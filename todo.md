@@ -7,7 +7,7 @@
   - add default display ip and other hints (perhaps example code?)
   
 - Client
-  - Add unimplemented methods
+  - Add unimplemented methods (done)
   - write javadoc
   
 - Finishing
