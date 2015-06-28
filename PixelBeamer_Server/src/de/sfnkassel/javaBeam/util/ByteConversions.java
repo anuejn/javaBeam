@@ -1,7 +1,5 @@
 package de.sfnkassel.javaBeam.util;
 
-import javafx.scene.paint.Color;
-
 public class ByteConversions {
 	
 	public static Byte[] fromInt(int in){
@@ -46,15 +44,5 @@ public class ByteConversions {
 		}
 		
 		return out;
-	}
-	
-	public static int colorPartFromByte(byte in) {
-		return in < 0 ? 127 - in : in;
-	}
-	
-	public static Color colorFromByteArray(Byte[] in, int offset) {
-		return new Color(((float)colorPartFromByte(in[offset + 0]))/255,
-						((float)colorPartFromByte(in[offset + 1]))/255,
-						((float)colorPartFromByte(in[offset + 2]))/255, 0);
 	}
 }
