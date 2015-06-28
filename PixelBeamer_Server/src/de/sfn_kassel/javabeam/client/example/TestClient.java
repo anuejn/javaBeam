@@ -1,15 +1,17 @@
-package de.sfn_kassel.javabeam.client;
+package de.sfn_kassel.javabeam.client.example;
 
 import java.awt.Color;
 import java.io.IOException;
 
-public class DemoClient {
+import de.sfn_kassel.javabeam.client.JavabeamClient;
+
+public class TestClient {
 	
 	public static void main(String[] args) {
 		JavabeamClient beamer = new JavabeamClient("localhost");
 		
 		try {
-			beamer.drawRectangle(0, 0, 10000, 10000, Color.WHITE);
+			beamer.drawRectangle(10, 10, 10, 10, Color.CYAN);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
