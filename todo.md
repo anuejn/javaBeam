@@ -8,8 +8,8 @@
   
 - Client
   - Add unimplemented methods (done)
-  - write javadoc
+  - write javadoc (done)
   
 - Finishing
-  - test everything
+  - test everything (in Progress)
   - create Jar file
