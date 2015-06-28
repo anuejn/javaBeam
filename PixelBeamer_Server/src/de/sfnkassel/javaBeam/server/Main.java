@@ -12,6 +12,8 @@ import java.util.TimerTask;
 
 import de.sfnkassel.javaBeam.server.draw.Drawer;
 import de.sfnkassel.javaBeam.server.net.ConnectionHandler;
+import de.sfnkassel.javaBeam.util.ByteConversions;
+import de.sfnkassel.javaBeam.util.SpriteType;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -88,6 +90,28 @@ public class Main extends Application{
 		} catch (SocketException e) {
 			fatal(e);
 		}
+		
+		byte[] byteText = ByteConversions.stringToByteArray(internalIp.substring(1));
+		Byte[] out = new Byte[13 + byteText.length];
+		out[0] = SpriteType.CMD_DRAW_TEXT;
+		out[1] = 0;
+		out[2] = 0;
+		out[3] = 0;
+		out[4] = ByteConversions.fromInt(300)[0];
+		out[5] = ByteConversions.fromInt(300)[1];
+		out[6] = ByteConversions.fromInt(300)[2];
+		out[7] = ByteConversions.fromInt(300)[3];
+		out[8] = ByteConversions.fromInt(400)[0];
+		out[9] = ByteConversions.fromInt(400)[1];
+		out[10] = ByteConversions.fromInt(400)[2];
+		out[11] = ByteConversions.fromInt(400)[3];
+		out[12] = 88;
+		
+		for (int i = 0; i < byteText.length; i++) {
+			out[i + 13] = byteText[i];
+		}
+		
+		drawer.drawCommand(out);
 	}
 		
 	public static void fatal(Exception e){
