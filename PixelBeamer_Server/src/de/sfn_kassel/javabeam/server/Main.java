@@ -1,5 +1,6 @@
 package de.sfn_kassel.javabeam.server;
 
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -12,12 +13,12 @@ import java.util.TimerTask;
 
 import de.sfn_kassel.javabeam.server.draw.Drawer;
 import de.sfn_kassel.javabeam.server.net.ConnectionHandler;
-import de.sfn_kassel.javabeam.util.ByteConversions;
-import de.sfn_kassel.javabeam.util.SpriteType;
+import de.sfn_kassel.javabeam.util.Drawable;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -51,18 +52,26 @@ public class Main extends Application{
 		});
 		
 		this.drawer = new Drawer(drawCanvas);
-		this.handler = new ConnectionHandler(drawer);
+		try {
+			this.handler = new ConnectionHandler(drawer);
+		} catch (IOException e) {
+			System.err.println("Server konnte nicht erstellt werden! Läuft schon eine Instanz?");
+			fatal(e);
+			System.exit(1);
+		}
 		handler.start();
 		
 		drawSchedule.schedule(new TimerTask(){
 			@Override
 			public void run() {
-				for(Byte[] cmd : handler.commands){
-					Platform.runLater(() -> {
-						drawer.drawCommand(cmd);
-					});
+				synchronized (handler.commands) {
+					for(Drawable cmd : handler.commands){
+						Platform.runLater(() -> {
+							drawer.drawCommand(cmd);
+						});
+					}
+					handler.commands.clear();
 				}
-				handler.commands.clear();
 			}
 		}, 100, 100);
 		
@@ -90,26 +99,16 @@ public class Main extends Application{
 		} catch (SocketException e) {
 			fatal(e);
 		}
+		final String finalIp = internalIp.substring(1);
 		
-		byte[] byteText = ByteConversions.stringToByteArray(internalIp.substring(1));
-		Byte[] out = new Byte[13 + byteText.length];
-		out[0] = SpriteType.CMD_DRAW_TEXT;
-		out[1] = 0;
-		out[2] = 0;
-		out[3] = 0;
-		out[4] = ByteConversions.fromInt(300)[0];
-		out[5] = ByteConversions.fromInt(300)[1];
-		out[6] = ByteConversions.fromInt(300)[2];
-		out[7] = ByteConversions.fromInt(300)[3];
-		out[8] = ByteConversions.fromInt(400)[0];
-		out[9] = ByteConversions.fromInt(400)[1];
-		out[10] = ByteConversions.fromInt(400)[2];
-		out[11] = ByteConversions.fromInt(400)[3];
-		out[12] = 88;
-		
-		for (int i = 0; i < byteText.length; i++) {
-			out[i + 13] = byteText[i];
-		}
+		Drawable out = new Drawable() {
+			private static final long serialVersionUID = 2465458178731739235L;
+
+			@Override
+			public void draw(GraphicsContext graphics) {
+				graphics.fillText(finalIp, 100, 100);
+			}
+		};
 		
 		drawer.drawCommand(out);
 	}

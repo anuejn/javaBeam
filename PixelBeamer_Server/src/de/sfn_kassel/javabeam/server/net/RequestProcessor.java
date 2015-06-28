@@ -3,11 +3,11 @@ package de.sfn_kassel.javabeam.server.net;
 import static de.sfn_kassel.javabeam.server.Main.*;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import de.sfn_kassel.javabeam.util.ArrayUtil;
+import de.sfn_kassel.javabeam.util.Drawable;
 
 
 public class RequestProcessor extends Thread {
@@ -24,32 +24,29 @@ public class RequestProcessor extends Thread {
 	@Override
 	public void run() {
 		try {
-			InputStream in = socket.getInputStream();
-			OutputStream out = socket.getOutputStream();
-			Thread.sleep(100);
-			Byte[] bytes = new Byte[in.available()];
-			int available = in.available();
-			for (int i = 0; i < available; i++ ) {
-				bytes[i] = (byte) in.read();
-			}
-			out.write(new byte[]{(byte) 0xAA}, 0, 1);
-			out.flush();
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 			
-			handler.commands.add(ArrayUtil.deepCopyArray(bytes));
-			
-			String cmd = "";
-			for (byte b : bytes) {
-				cmd += b + "; ";
-			}
-			info("Recieved Draw Call: " + cmd);
+				try {
+					Drawable d = (Drawable) ois.readObject();
+					info("Recieved Draw Call: " + d);
+					synchronized (handler.commands) {
+						handler.commands.add(d);
+					}
+					oos.writeObject("done");
+				} catch (Exception e) {
+					e.printStackTrace();
+					oos.writeObject(e);
+				}
+			oos.flush();
+			oos.close();
 		} catch (IOException e) {
-			fatal(e);
-		} catch (InterruptedException e) {
 			fatal(e);
 		}
 		finally {
 			try {
-				if (socket != null) socket.close();
+				if (socket != null)
+					socket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
