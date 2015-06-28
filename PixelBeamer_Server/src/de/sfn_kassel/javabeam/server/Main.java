@@ -1,4 +1,4 @@
-package de.sfnkassel.javaBeam.server;
+package de.sfn_kassel.javabeam.server;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.sfnkassel.javaBeam.server.draw.Drawer;
-import de.sfnkassel.javaBeam.server.net.ConnectionHandler;
-import de.sfnkassel.javaBeam.util.ByteConversions;
-import de.sfnkassel.javaBeam.util.SpriteType;
+import de.sfn_kassel.javabeam.server.draw.Drawer;
+import de.sfn_kassel.javabeam.server.net.ConnectionHandler;
+import de.sfn_kassel.javabeam.util.ByteConversions;
+import de.sfn_kassel.javabeam.util.SpriteType;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;

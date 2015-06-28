@@ -1,13 +1,13 @@
-package de.sfnkassel.javaBeam.server.net;
+package de.sfn_kassel.javabeam.server.net;
 
-import static de.sfnkassel.javaBeam.server.Main.*;
+import static de.sfn_kassel.javabeam.server.Main.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import de.sfnkassel.javaBeam.util.ArrayUtil;
+import de.sfn_kassel.javabeam.util.ArrayUtil;
 
 
 public class RequestProcessor extends Thread {

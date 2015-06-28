@@ -11,5 +11,6 @@
   - write javadoc (done)
   
 - Finishing
-  - test everything (in Progress)
+  - test everything (done)
+  - test in reallife situation (with 9 pc conn. to jaros pc, using import jars)
   - create Jar file

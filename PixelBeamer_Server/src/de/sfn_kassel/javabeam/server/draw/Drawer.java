@@ -1,10 +1,10 @@
-package de.sfnkassel.javaBeam.server.draw;
+package de.sfn_kassel.javabeam.server.draw;
 
-import static de.sfnkassel.javaBeam.server.Main.*;
-import static de.sfnkassel.javaBeam.util.ByteConversions.*;
-import static de.sfnkassel.javaBeam.util.SpriteType.*;
+import static de.sfn_kassel.javabeam.server.Main.*;
+import static de.sfn_kassel.javabeam.util.ByteConversions.*;
+import static de.sfn_kassel.javabeam.util.SpriteType.*;
 
-import de.sfnkassel.javaBeam.util.ArrayUtil;
+import de.sfn_kassel.javabeam.util.ArrayUtil;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BoxBlur;

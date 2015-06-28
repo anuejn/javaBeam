@@ -1,4 +1,4 @@
-package de.sfnkassel.javaBeam.util;
+package de.sfn_kassel.javabeam.util;
 
 public class SpriteType {
 	public static final byte CMD_DRAW_PIXEL = 0x01;

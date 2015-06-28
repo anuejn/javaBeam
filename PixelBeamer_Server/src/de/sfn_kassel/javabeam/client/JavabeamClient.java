@@ -1,11 +1,11 @@
-package de.sfnkassel.javaBeam.client;
+package de.sfn_kassel.javabeam.client;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.net.Socket;
 
-import de.sfnkassel.javaBeam.util.ByteConversions;
-import de.sfnkassel.javaBeam.util.SpriteType;
+import de.sfn_kassel.javabeam.util.ByteConversions;
+import de.sfn_kassel.javabeam.util.SpriteType;
 
 public class JavabeamClient {
 	private String ip;
