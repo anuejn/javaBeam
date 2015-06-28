@@ -1,13 +1,13 @@
-package de.sfnkassel.javaBeam.server.net;
+package de.sfn_kassel.javabeam.server.net;
 
-import static de.sfnkassel.javaBeam.server.Main.*;
+import static de.sfn_kassel.javabeam.server.Main.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.sfnkassel.javaBeam.server.draw.Drawer;
+import de.sfn_kassel.javabeam.server.draw.Drawer;
 
 public class ConnectionHandler extends Thread {
 
