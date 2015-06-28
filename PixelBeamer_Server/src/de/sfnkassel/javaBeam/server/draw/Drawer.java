@@ -29,29 +29,29 @@ public class Drawer {
 		switch(command[0]){
 			case CMD_DRAW_PIXEL:
 				graphics.setFill(createColor(command));
-				graphics.fillRect(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), 1, 1);
+				graphics.fillRect(intFromByteArray(ArrayUtil.getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 8, 4)), 1, 1);
 				break;
 			case CMD_DRAW_RECTANGLE:
 				graphics.setFill(createColor(command));
-				graphics.fillRect(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 16, 4)));
+				graphics.fillRect(intFromByteArray(ArrayUtil.getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 16, 4)));
 				break;
 			case CMD_DRAW_LINE:
 				graphics.setStroke(createColor(command));
 				graphics.setLineWidth(command[20]);
-				graphics.strokeLine(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 16, 4)));
+				graphics.strokeLine(intFromByteArray(ArrayUtil.getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 16, 4)));
 				break;
 			case CMD_DRAW_CIRCLE:
 				graphics.setFill(createColor(command));
-				graphics.fillOval(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)) - intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)) - intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)));
+				graphics.fillOval(intFromByteArray(ArrayUtil.getSubarray(command, 4, 4)) - intFromByteArray(ArrayUtil.getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 8, 4)) - intFromByteArray(ArrayUtil.getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.getSubarray(command, 12, 4)), 2 * intFromByteArray(ArrayUtil.getSubarray(command, 12, 4)));
 				break;
 			case CMD_DRAW_TEXT:
 				graphics.setFill(createColor(command));
 				graphics.setFont(Font.font ("Calibri", command[12]));
 				String str = "";
 				for(int i = 13; i < command.length; i += 2){
-					str += charFromByteArray(ArrayUtil.<Byte>getSubarray(command, i, 2));
+					str += charFromByteArray(ArrayUtil.getSubarray(command, i, 2));
 				}
-				graphics.fillText(str, intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)));
+				graphics.fillText(str, intFromByteArray(ArrayUtil.getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.getSubarray(command, 8, 4)));
 				break;
 			case INVALID:
 				info("Draw command recieved that was marked Invalid.");
