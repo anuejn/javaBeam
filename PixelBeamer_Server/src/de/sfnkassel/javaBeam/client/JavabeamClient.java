@@ -1,5 +1,6 @@
 package de.sfnkassel.javaBeam.client;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -17,20 +18,20 @@ public class JavabeamClient {
 		JavabeamClient beamer = new JavabeamClient("localhost");
 		
 		
-		beamer.drawText(100, 300, 0, 127, 127, 30, "Hello, World");
-		beamer.colorPixel(0, 0, 0, 0, 0);
-		beamer.drawCircle(300, 300, 50, 0, 0, 0);
-		beamer.drawLine(0, 0, 500, 500, 10, 255, 0, 0);
-		beamer.drawRectangle(400, 10, 20, 20, 0, 0, 255);
+		beamer.drawText(100, 300, new Color(0, 127, 127), 30, "Hello, World");
+		beamer.colorPixel(0, 0, new Color(0, 0, 0));
+		beamer.drawCircle(300, 300, 50, new Color(0, 0, 0));
+		beamer.drawLine(0, 0, 500, 500, 10, new Color(255, 0, 0));
+		beamer.drawRectangle(400, 10, 20, 20, new Color(0, 0, 255));
 		
 	}
 
-	public void colorPixel(int x, int y, int r, int g, int b) throws IOException {
+	public void colorPixel(int x, int y, Color color) throws IOException {
 		byte[] out = new byte[12];
 		out[0] = SpriteType.CMD_DRAW_PIXEL;
-		out[1] = (byte) r;
-		out[2] = (byte) g;
-		out[3] = (byte) b;
+		out[1] = (byte) color.getRed();
+		out[2] = (byte) color.getGreen();
+		out[3] = (byte) color.getBlue();
 		out[4] = ByteConversions.fromInt(x)[0];
 		out[5] = ByteConversions.fromInt(x)[1];
 		out[6] = ByteConversions.fromInt(x)[2];
@@ -42,12 +43,12 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
-	public void drawRectangle(int x, int y, int width, int height, int r, int g, int b) throws IOException {
+	public void drawRectangle(int x, int y, int width, int height, Color color) throws IOException {
 		byte[] out = new byte[20];
 		out[0] = SpriteType.CMD_DRAW_RECTANGLE;
-		out[1] = (byte) r;
-		out[2] = (byte) g;
-		out[3] = (byte) b;
+		out[1] = (byte) color.getRed();
+		out[2] = (byte) color.getGreen();
+		out[3] = (byte) color.getBlue();
 		out[4] = ByteConversions.fromInt(x)[0];
 		out[5] = ByteConversions.fromInt(x)[1];
 		out[6] = ByteConversions.fromInt(x)[2];
@@ -67,12 +68,12 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
-	public void drawLine(int x1, int y1, int x2, int y2, int thickness, int r, int g, int b) throws IOException {
+	public void drawLine(int x1, int y1, int x2, int y2, int thickness, Color color) throws IOException {
 		byte[] out = new byte[21];
 		out[0] = SpriteType.CMD_DRAW_LINE;
-		out[1] = (byte) r;
-		out[2] = (byte) g;
-		out[3] = (byte) b;
+		out[1] = (byte) color.getRed();
+		out[2] = (byte) color.getGreen();
+		out[3] = (byte) color.getBlue();
 		out[4] = ByteConversions.fromInt(x1)[0];
 		out[5] = ByteConversions.fromInt(x1)[1];
 		out[6] = ByteConversions.fromInt(x1)[2];
@@ -93,12 +94,12 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
-	public void drawCircle(int x, int y, int rad, int r, int g, int b) throws IOException {
+	public void drawCircle(int x, int y, int rad, Color color) throws IOException {
 		byte[] out = new byte[16];
 		out[0] = SpriteType.CMD_DRAW_CIRCLE;
-		out[1] = (byte) r;
-		out[2] = (byte) g;
-		out[3] = (byte) b;
+		out[1] = (byte) color.getRed();
+		out[2] = (byte) color.getGreen();
+		out[3] = (byte) color.getBlue();
 		out[4] = ByteConversions.fromInt(x)[0];
 		out[5] = ByteConversions.fromInt(x)[1];
 		out[6] = ByteConversions.fromInt(x)[2];
@@ -114,13 +115,13 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
-	public void drawText(int x, int y, int r, int g, int b, int fontsize, String text) throws IOException {
+	public void drawText(int x, int y, Color color, int fontsize, String text) throws IOException {
 		byte[] byteText = ByteConversions.stringToByteArray(text);
 		byte[] out = new byte[13 + byteText.length];
 		out[0] = SpriteType.CMD_DRAW_TEXT;
-		out[1] = (byte) r;
-		out[2] = (byte) g;
-		out[3] = (byte) b;
+		out[1] = (byte) color.getRed();
+		out[2] = (byte) color.getGreen();
+		out[3] = (byte) color.getBlue();
 		out[4] = ByteConversions.fromInt(x)[0];
 		out[5] = ByteConversions.fromInt(x)[1];
 		out[6] = ByteConversions.fromInt(x)[2];
@@ -143,7 +144,7 @@ public class JavabeamClient {
 		connection.getOutputStream().write(bytes);
 		if(connection.getInputStream().read() != 0xAA) {
 			connection.close();
-			throw new IOException("cmd not sucess");
+			throw new IOException("cmd failed");
 		}
 		connection.close();
 	}
