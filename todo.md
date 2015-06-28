@@ -8,8 +8,9 @@
   
 - Client
   - Add unimplemented methods (done)
-  - write javadoc
+  - write javadoc (done)
   
 - Finishing
-  - test everything
+  - test everything (done)
+  - test in reallife situation (with 9 pc conn. to jaros pc, using import jars)
   - create Jar file
