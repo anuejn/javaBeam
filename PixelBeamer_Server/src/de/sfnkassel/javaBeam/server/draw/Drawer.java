@@ -19,9 +19,9 @@ public class Drawer {
 		graphics = canvas.getGraphicsContext2D();
 		graphics.setFont(Font.font ("Calibri", 20));
 		BoxBlur blur = new BoxBlur();
-	    blur.setWidth(1);
-	    blur.setHeight(1);
-	    blur.setIterations(1);
+	    blur.setWidth(1.55);
+	    blur.setHeight(1.55);
+	    blur.setIterations(20);
 	    graphics.setEffect(blur);
 	}
 	
@@ -37,7 +37,7 @@ public class Drawer {
 				break;
 			case CMD_DRAW_LINE:
 				graphics.setStroke(new Color(Math.abs(((double)command[1])/255), Math.abs(((double)command[2])/255), Math.abs(((double)command[3])/255), 1));
-				graphics.setLineWidth(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 20, 4)));
+				graphics.setLineWidth(command[20]);
 				graphics.strokeLine(intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 4, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 8, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 12, 4)), intFromByteArray(ArrayUtil.<Byte>getSubarray(command, 16, 4)));
 				break;
 			case CMD_DRAW_CIRCLE:
