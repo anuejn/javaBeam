@@ -1,5 +1,6 @@
 package de.sfn_kassel.javabeam.server;
 
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -21,11 +22,15 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Main extends Application{
 
+public class Main extends Application {
+	
 	private StackPane mainPane = new StackPane();
+	
 	private Canvas drawCanvas;
+	
 	private Drawer drawer;
+	
 	private ConnectionHandler handler;
 	
 	private static List<Exception> exceptions = new ArrayList<Exception>();
@@ -33,11 +38,12 @@ public class Main extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("PixelBeamer");
-		drawCanvas = new Canvas(primaryStage.getWidth(), primaryStage.getHeight());
+		drawCanvas = new Canvas(primaryStage.getWidth(),
+				primaryStage.getHeight());
 		drawCanvas.widthProperty().bind(mainPane.widthProperty());
 		drawCanvas.heightProperty().bind(mainPane.heightProperty());
 		mainPane.getChildren().add(drawCanvas);
@@ -45,53 +51,66 @@ public class Main extends Application{
 		primaryStage.setScene(new Scene(mainPane));
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(event -> {
-		    info("Closing Application.");
-		    handler.proposeStop();
-		    drawSchedule.cancel();
+			info("Closing Application.");
+			handler.proposeStop();
+			drawSchedule.cancel();
 		});
 		
 		this.drawer = new Drawer(drawCanvas);
-		this.handler = new ConnectionHandler(drawer);
-		handler.start();
+		try {
+			this.handler = new ConnectionHandler(drawer);
+			handler.start();
+		} catch (IOException e) {
+			fatal(new IOException("Couldn't start Server. Already running?", e));
+			System.exit(1);
+		}
 		
-		drawSchedule.schedule(new TimerTask(){
+		drawSchedule.schedule(new TimerTask() {
+			
 			@Override
 			public void run() {
-				for(Byte[] cmd : handler.commands){
-					Platform.runLater(() -> {
-						drawer.drawCommand(cmd);
-					});
+				synchronized (handler.commands) {
+					for(Byte[] cmd : handler.commands){
+						Platform.runLater(() -> {
+							drawer.drawCommand(cmd);
+						});
+					}
+					handler.commands.clear();
 				}
-				handler.commands.clear();
 			}
 		}, 100, 100);
 		
 		initDrawing();
 	}
 	
-	private void initDrawing(){
+	private void initDrawing() {
 		String internalIp = "";
 		try {
-			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-			while(netInterfaces.hasMoreElements()){
+			Enumeration<NetworkInterface> netInterfaces = NetworkInterface
+					.getNetworkInterfaces();
+			while (netInterfaces.hasMoreElements()) {
 				NetworkInterface netInterface = netInterfaces.nextElement();
-				if(!netInterface.isUp() || netInterface.isLoopback() || netInterface.isVirtual()) continue;
-				Enumeration<InetAddress> addrs = netInterface.getInetAddresses();
-				while(addrs.hasMoreElements()){
+				if (!netInterface.isUp() || netInterface.isLoopback()
+						|| netInterface.isVirtual())
+					continue;
+				Enumeration<InetAddress> addrs = netInterface
+						.getInetAddresses();
+				while (addrs.hasMoreElements()) {
 					InetAddress addr = addrs.nextElement();
-					if(!addr.isLoopbackAddress() && addr instanceof Inet4Address){
+					if (!addr.isLoopbackAddress()
+							&& addr instanceof Inet4Address) {
 						internalIp = addr.toString();
 						break;
 					}
 				}
-				if(!internalIp.equals(""))
-					break;
+				if (!internalIp.equals("")) break;
 			}
 		} catch (SocketException e) {
 			fatal(e);
 		}
 		
-		byte[] byteText = ByteConversions.stringToByteArray(internalIp.substring(1));
+		byte[] byteText = ByteConversions
+				.stringToByteArray(internalIp.substring(1));
 		Byte[] out = new Byte[13 + byteText.length];
 		out[0] = SpriteType.CMD_DRAW_TEXT;
 		out[1] = 0;
@@ -107,20 +126,20 @@ public class Main extends Application{
 		out[11] = ByteConversions.fromInt(400)[3];
 		out[12] = 88;
 		
-		for (int i = 0; i < byteText.length; i++) {
+		for (int i = 0; i < byteText.length; i++ ) {
 			out[i + 13] = byteText[i];
 		}
 		
 		drawer.drawCommand(out);
 	}
-		
-	public static void fatal(Exception e){
+	
+	public static void fatal(Exception e) {
 		System.err.println("[SEVERE]");
 		e.printStackTrace(System.err);
 		exceptions.add(e);
 	}
 	
-	public static void info(String msg){
+	public static void info(String msg) {
 		System.out.println("[INFO]");
 		System.out.println(msg);
 	}
