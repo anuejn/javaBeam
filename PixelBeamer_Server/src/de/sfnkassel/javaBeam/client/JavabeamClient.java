@@ -10,23 +10,22 @@ import de.sfnkassel.javaBeam.util.SpriteType;
 public class JavabeamClient {
 	private String ip;
 
+	/**
+	 * 
+	 * @param ip Die IP-Adresse des Zielcomputers
+	 */
 	public JavabeamClient(String ip) {
 		this.ip = ip;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		JavabeamClient beamer = new JavabeamClient("localhost");
-		
-		
-		beamer.drawText(100, 300, new Color(0, 127, 127), 30, "Hello, World");
-		beamer.colorPixel(0, 0, new Color(0, 0, 0));
-		beamer.drawCircle(300, 300, 50, new Color(0, 0, 0));
-		beamer.drawLine(0, 0, 500, 500, 10, new Color(255, 0, 0));
-		beamer.drawRectangle(400, 10, 20, 20, new Color(0, 0, 255));
-		
-	}
 
-	public void colorPixel(int x, int y, Color color) throws IOException {
+	/**
+	 * 
+	 * @param x Die X-Koordinate des zu malenden Pixels
+	 * @param y Die Y-Koordinate des zu malenden Pixels
+	 * @param color Die Farbe des zu malenden Pixels
+	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
+	 */
+	public void drawPixel(int x, int y, Color color) throws IOException {
 		byte[] out = new byte[12];
 		out[0] = SpriteType.CMD_DRAW_PIXEL;
 		out[1] = (byte) color.getRed();
@@ -43,6 +42,15 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
+	/**
+	 * 
+	 * @param x Die X-Koordinate der oberen Linken Ecke des Rechtecks
+	 * @param y Die Y-Koordinate der oberen Linken Ecke des Rechtecks
+	 * @param width Die Breite des Rechtecks
+	 * @param height Die Höhe des Rechtecks
+	 * @param color Die Farbe des Rechtecks
+	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
+	 */
 	public void drawRectangle(int x, int y, int width, int height, Color color) throws IOException {
 		byte[] out = new byte[20];
 		out[0] = SpriteType.CMD_DRAW_RECTANGLE;
@@ -68,6 +76,16 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
+	/**
+	 * 
+	 * @param x1 Die X-Koordinate des Startpunktes der Linie
+	 * @param y1 Die Y-Koordinate des Startpunktes der Linie
+	 * @param x2 Die X-Koordinate des Endpunktes der Linie
+	 * @param y2 Die Y-Koordinate des Endpunktes der Linie
+	 * @param thickness Die Dicke der Linie
+	 * @param color Die Farbe der Linie
+	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
+	 */
 	public void drawLine(int x1, int y1, int x2, int y2, int thickness, Color color) throws IOException {
 		byte[] out = new byte[21];
 		out[0] = SpriteType.CMD_DRAW_LINE;
@@ -94,6 +112,14 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
+	/**
+	 * 
+	 * @param x Die X-Koordinate der Kreismitte
+	 * @param y Die Y-Koordinate der Kreismitte
+	 * @param rad Der Radius des Kreises
+	 * @param color Die Farbe des Kreises
+	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
+	 */
 	public void drawCircle(int x, int y, int rad, Color color) throws IOException {
 		byte[] out = new byte[16];
 		out[0] = SpriteType.CMD_DRAW_CIRCLE;
@@ -115,6 +141,15 @@ public class JavabeamClient {
 		sendToServer(out);
 	}
 	
+	/**
+	 * 
+	 * @param x Die X-Koordinate der unteren Linken Ecke des Textes
+	 * @param y Die Y-Koordinate der unteren Linken Ecke des Textes
+	 * @param color Die Farbe des Textes
+	 * @param fontsize Die Schriftgröße des Textes
+	 * @param text Der Text
+	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
+	 */
 	public void drawText(int x, int y, Color color, int fontsize, String text) throws IOException {
 		byte[] byteText = ByteConversions.stringToByteArray(text);
 		byte[] out = new byte[13 + byteText.length];
