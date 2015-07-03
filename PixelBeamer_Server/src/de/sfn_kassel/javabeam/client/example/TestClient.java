@@ -13,10 +13,16 @@ public class TestClient {
 		JavaBeamClient beamer = new JavaBeamClient("localhost");
 		for (int i = 0; i < 10; i++) {
 			try {
+				Thread.sleep(100l);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			try {
 				int offsetX = new Random().nextInt(600);
 				int offsetY = new Random().nextInt(600);
-				beamer.drawRectangle(10 + offsetX, 10 + offsetY, offsetX, offsetY, new Color((float)Math.random(), (float)Math.random(), (float)Math.random()));
-				beamer.drawText(15 + offsetX, 45 + offsetY, Color.BLACK, Math.min(offsetX, offsetY) / 20, InetAddress.getLocalHost().getHostName());
+				beamer.drawRectangle(10 + offsetX, 10 + offsetY, 100, 40, new Color((float)Math.random(), (float)Math.random(), (float)Math.random()));
+				beamer.drawText(15 + offsetX, offsetY + 30
+						, Color.BLACK, 12, InetAddress.getLocalHost().getHostName());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

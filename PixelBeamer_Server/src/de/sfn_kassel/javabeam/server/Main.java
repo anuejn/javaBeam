@@ -112,10 +112,10 @@ public class Main extends Application {
 		JavaBeamClient me = new JavaBeamClient(internalIp);
 		int fontSize = 42;
 		try {
-			me.drawText((int)drawCanvas.getWidth() / 2 - ((internalIp.length() * fontSize) / 4), (int)drawCanvas.getHeight() - 1, Color.BLACK, fontSize, internalIp);
+			me.drawText((int)drawCanvas.getWidth() / 2 - ((internalIp.length() * fontSize) / 4), (int)drawCanvas.getHeight() - 50, Color.BLACK, fontSize, internalIp);
 			drawHint(0, 0, me);
 			for(int i = 0; i < 10; i ++) {
-				drawHint((int)(Math.random() * 1000), (int)(Math.random() * 700), me);
+				drawHint((int)(Math.random() * 1000), (int)(Math.random() * 600), me);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

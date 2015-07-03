@@ -5,7 +5,6 @@ import static de.sfn_kassel.javabeam.server.Main.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -27,7 +26,6 @@ public class RequestProcessor extends Thread {
 	public void run() {
 		try {
 			InputStream in = socket.getInputStream();
-			OutputStream out = socket.getOutputStream();
 			ArrayList<Byte> bigBytes = new ArrayList<>();
 			
 			BufferedInputStream bin = new BufferedInputStream(in);
@@ -37,8 +35,6 @@ public class RequestProcessor extends Thread {
 					break;
 				bigBytes.add((byte)temp);
 			}
-			out.write(new byte[]{(byte) 0xAA}, 0, 1);
-			out.flush();
 			
 			Byte[] bytes = new Byte[bigBytes.size()];
 			bigBytes.toArray(bytes);
