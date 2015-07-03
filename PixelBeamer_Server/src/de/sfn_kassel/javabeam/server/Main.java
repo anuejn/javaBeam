@@ -112,7 +112,11 @@ public class Main extends Application {
 		JavabeamClient me = new JavabeamClient(internalIp);
 		int fontSize = 42;
 		try {
-			me.drawText((int)drawCanvas.getWidth() / 2, (int)drawCanvas.getHeight() - 1, Color.BLACK, fontSize, internalIp);
+			me.drawText((int)drawCanvas.getWidth() / 2 - ((internalIp.length() * fontSize) / 4), (int)drawCanvas.getHeight() - 1, Color.BLACK, fontSize, internalIp);
+			drawHint(0, 0, me);
+			for(int i = 0; i < 10; i ++) {
+				drawHint((int)(Math.random() * 1000), (int)(Math.random() * 700), me);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -127,5 +131,13 @@ public class Main extends Application {
 	public static void info(String msg) {
 		System.out.println("[INFO]");
 		System.out.println(msg);
+	}
+	
+	public static void drawHint(int x, int y, JavabeamClient me) throws IOException {
+		me.drawCircle(x, y, 3, Color.DARK_GRAY);
+		me.drawLine(x + 10, y + 10, x + 20, y+20, 2, Color.DARK_GRAY);
+		me.drawLine(x+ 10, y+10, x+10, y+20, 2, Color.DARK_GRAY);
+		me.drawLine(x+10, y+10, x+20, y+10, 2, Color.DARK_GRAY);
+		me.drawText(x+30, y+30, Color.DARK_GRAY, 10, "(" + x + "|"+y+")");
 	}
 }
