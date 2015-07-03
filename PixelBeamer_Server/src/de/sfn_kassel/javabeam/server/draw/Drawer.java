@@ -25,7 +25,7 @@ public class Drawer {
 	    graphics.setEffect(blur);
 	}
 	
-	public void drawCommand(Byte[] command) throws UnsupportedOperationException{
+	synchronized public void drawCommand(Byte[] command) throws UnsupportedOperationException{
 		switch(command[0]){
 			case CMD_DRAW_PIXEL:
 				graphics.setFill(createColor(command));

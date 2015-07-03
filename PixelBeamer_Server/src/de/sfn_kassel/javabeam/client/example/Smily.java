@@ -12,9 +12,6 @@ public class Smily {
 		// Der Parameter gibt dabei die IP des Computers an, auf dem das Bild gemalt wird
 		JavabeamClient beamer = new JavabeamClient("localhost");
 		
-		// malt ein weißes Rechteck, um alles "alte" zu übermalen
-		beamer.drawRectangle(0, 0, 1000, 1000, Color.WHITE);
-		
 		// gelberKkreis
 		beamer.drawCircle(500, 300, 200, Color.YELLOW);
 		
@@ -25,7 +22,7 @@ public class Smily {
 		// Diese Schleife läuft 21 mal durch, wobei die Variable x am amfang -100 ist und bei jedem Schleifendurchlauf
 		// um 10 erhöht wird.
 		// Sobald die Bedingung "x <= 100" nicht mehr erfüllt ist, wird die schleife abgebrochen.
-		for (int x = -100; x <= 100; x += 10) {
+		for (int x = -100; x <= 100; x += 1) {
 			// malt (bei jedem Schleifendurchlauf) einen Kreis
 			beamer.drawCircle(500 + x, (int) (420 - 0.005 * x * x), 20, Color.BLACK);
 		}

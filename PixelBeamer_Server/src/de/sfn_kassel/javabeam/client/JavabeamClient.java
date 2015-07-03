@@ -177,10 +177,6 @@ public class JavabeamClient {
 	private void sendToServer(byte[] bytes) throws IOException {
 		Socket connection = new Socket(ip, 8088);
 		connection.getOutputStream().write(bytes);
-		if(connection.getInputStream().read() != 0xAA) {
-			connection.close();
-			throw new IOException("cmd failed");
-		}
 		connection.close();
 	}
 }

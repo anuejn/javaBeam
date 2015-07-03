@@ -2,10 +2,12 @@ package de.sfn_kassel.javabeam.server.net;
 
 import static de.sfn_kassel.javabeam.server.Main.*;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import de.sfn_kassel.javabeam.util.ArrayUtil;
 
@@ -26,16 +28,24 @@ public class RequestProcessor extends Thread {
 		try {
 			InputStream in = socket.getInputStream();
 			OutputStream out = socket.getOutputStream();
-			Thread.sleep(100);
-			Byte[] bytes = new Byte[in.available()];
-			int available = in.available();
-			for (int i = 0; i < available; i++ ) {
-				bytes[i] = (byte) in.read();
+			ArrayList<Byte> bigBytes = new ArrayList<>();
+			
+			BufferedInputStream bin = new BufferedInputStream(in);
+			while (true) {
+				int temp = bin.read();
+				if(temp < 0)
+					break;
+				bigBytes.add((byte)temp);
 			}
 			out.write(new byte[]{(byte) 0xAA}, 0, 1);
 			out.flush();
 			
-			handler.commands.add(ArrayUtil.deepCopyArray(bytes));
+			Byte[] bytes = new Byte[bigBytes.size()];
+			bigBytes.toArray(bytes);
+			
+			synchronized (handler.commands) {
+				handler.commands.add(ArrayUtil.deepCopyArray(bytes));
+			}
 			
 			String cmd = "";
 			for (byte b : bytes) {
@@ -43,8 +53,8 @@ public class RequestProcessor extends Thread {
 			}
 			info("Recieved Draw Call: " + cmd);
 		} catch (IOException e) {
-			fatal(e);
-		} catch (InterruptedException e) {
+//			fatal(e);
+//		} catch (InterruptedException e) {
 			fatal(e);
 		}
 		finally {

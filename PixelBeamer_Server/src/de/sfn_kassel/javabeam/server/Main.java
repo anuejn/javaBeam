@@ -1,5 +1,7 @@
 package de.sfn_kassel.javabeam.server;
 
+import java.awt.Color;
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -10,10 +12,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.sfn_kassel.javabeam.client.JavabeamClient;
 import de.sfn_kassel.javabeam.server.draw.Drawer;
 import de.sfn_kassel.javabeam.server.net.ConnectionHandler;
-import de.sfn_kassel.javabeam.util.ByteConversions;
-import de.sfn_kassel.javabeam.util.SpriteType;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -57,12 +58,14 @@ public class Main extends Application{
 		drawSchedule.schedule(new TimerTask(){
 			@Override
 			public void run() {
-				for(Byte[] cmd : handler.commands){
-					Platform.runLater(() -> {
-						drawer.drawCommand(cmd);
-					});
+				synchronized (handler.commands) {
+					for(Byte[] cmd : handler.commands){
+						Platform.runLater(() -> {
+							drawer.drawCommand(cmd);
+						});
+					}
+					handler.commands.clear();
 				}
-				handler.commands.clear();
 			}
 		}, 100, 100);
 		
@@ -90,28 +93,15 @@ public class Main extends Application{
 		} catch (SocketException e) {
 			fatal(e);
 		}
+		internalIp = internalIp.substring(1);
 		
-		byte[] byteText = ByteConversions.stringToByteArray(internalIp.substring(1));
-		Byte[] out = new Byte[13 + byteText.length];
-		out[0] = SpriteType.CMD_DRAW_TEXT;
-		out[1] = 0;
-		out[2] = 0;
-		out[3] = 0;
-		out[4] = ByteConversions.fromInt(300)[0];
-		out[5] = ByteConversions.fromInt(300)[1];
-		out[6] = ByteConversions.fromInt(300)[2];
-		out[7] = ByteConversions.fromInt(300)[3];
-		out[8] = ByteConversions.fromInt(400)[0];
-		out[9] = ByteConversions.fromInt(400)[1];
-		out[10] = ByteConversions.fromInt(400)[2];
-		out[11] = ByteConversions.fromInt(400)[3];
-		out[12] = 88;
-		
-		for (int i = 0; i < byteText.length; i++) {
-			out[i + 13] = byteText[i];
+		JavabeamClient me = new JavabeamClient(internalIp);
+		int fontSize = 42;
+		try {
+			me.drawText((int)drawCanvas.getWidth() / 2, (int)drawCanvas.getHeight() - 1, Color.BLACK, fontSize, internalIp);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		drawer.drawCommand(out);
 	}
 		
 	public static void fatal(Exception e){
