@@ -11,7 +11,7 @@ public class TestClient {
 
 	public static void main(String[] args) {
 		JavaBeamClient beamer = new JavaBeamClient("localhost");
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e1) {

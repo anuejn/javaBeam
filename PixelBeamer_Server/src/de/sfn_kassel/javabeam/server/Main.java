@@ -117,8 +117,8 @@ public class Main extends Application {
 			for(int i = 0; i < 10; i ++) {
 				drawHint((int)(Math.random() * 1000), (int)(Math.random() * 600), me);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | InterruptedException e) {
+			fatal(e);
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class Main extends Application {
 		System.out.println(msg);
 	}
 	
-	public static void drawHint(int x, int y, JavaBeamClient me) throws IOException {
+	public static void drawHint(int x, int y, JavaBeamClient me) throws IOException, InterruptedException {
 		me.drawCircle(x, y, 3, Color.DARK_GRAY);
 		me.drawLine(x + 10, y + 10, x + 20, y+20, 2, Color.DARK_GRAY);
 		me.drawLine(x+ 10, y+10, x+10, y+20, 2, Color.DARK_GRAY);
