@@ -25,7 +25,7 @@ public class JavaBeamClient {
 	 * @param color Die Farbe des zu malenden Pixels
 	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
 	 */
-	public void drawPixel(int x, int y, Color color) throws IOException, InterruptedException {
+	public void drawPixel(int x, int y, Color color) throws IOException {
 		byte[] out = new byte[12];
 		out[0] = SpriteType.CMD_DRAW_PIXEL;
 		out[1] = (byte) color.getRed();
@@ -51,7 +51,7 @@ public class JavaBeamClient {
 	 * @param color Die Farbe des Rechtecks
 	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
 	 */
-	public void drawRectangle(int x, int y, int width, int height, Color color) throws IOException, InterruptedException {
+	public void drawRectangle(int x, int y, int width, int height, Color color) throws IOException {
 		byte[] out = new byte[20];
 		out[0] = SpriteType.CMD_DRAW_RECTANGLE;
 		out[1] = (byte) color.getRed();
@@ -86,7 +86,7 @@ public class JavaBeamClient {
 	 * @param color Die Farbe der Linie
 	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
 	 */
-	public void drawLine(int x1, int y1, int x2, int y2, int thickness, Color color) throws IOException, InterruptedException {
+	public void drawLine(int x1, int y1, int x2, int y2, int thickness, Color color) throws IOException {
 		byte[] out = new byte[21];
 		out[0] = SpriteType.CMD_DRAW_LINE;
 		out[1] = (byte) color.getRed();
@@ -120,7 +120,7 @@ public class JavaBeamClient {
 	 * @param color Die Farbe des Kreises
 	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
 	 */
-	public void drawCircle(int x, int y, int rad, Color color) throws IOException, InterruptedException {
+	public void drawCircle(int x, int y, int rad, Color color) throws IOException {
 		byte[] out = new byte[16];
 		out[0] = SpriteType.CMD_DRAW_CIRCLE;
 		out[1] = (byte) color.getRed();
@@ -150,7 +150,7 @@ public class JavaBeamClient {
 	 * @param text Der Text
 	 * @throws IOException Falls keine Verbindung aufgebaut werden kann
 	 */
-	public void drawText(int x, int y, Color color, int fontsize, String text) throws IOException, InterruptedException {
+	public void drawText(int x, int y, Color color, int fontsize, String text) throws IOException {
 		byte[] byteText = ByteConversions.stringToByteArray(text);
 		byte[] out = new byte[13 + byteText.length];
 		out[0] = SpriteType.CMD_DRAW_TEXT;
@@ -174,10 +174,14 @@ public class JavaBeamClient {
 		sendToServer(out);
 	}
 	
-	private void sendToServer(byte[] bytes) throws IOException, InterruptedException {
+	private void sendToServer(byte[] bytes) throws IOException {
 		Socket connection = new Socket(ip, 8088);
 		connection.getOutputStream().write(bytes);
 		connection.close();
-		Thread.sleep(10);
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

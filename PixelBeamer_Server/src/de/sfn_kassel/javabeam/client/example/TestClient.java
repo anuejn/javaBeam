@@ -23,7 +23,7 @@ public class TestClient {
 				beamer.drawRectangle(10 + offsetX, 10 + offsetY, 100, 40, new Color((float)Math.random(), (float)Math.random(), (float)Math.random()));
 				beamer.drawText(15 + offsetX, offsetY + 30
 						, Color.BLACK, 12, InetAddress.getLocalHost().getHostName());
-			} catch (IOException | InterruptedException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
