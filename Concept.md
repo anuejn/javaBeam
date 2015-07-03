@@ -22,6 +22,8 @@
 	 Byte 13 (bei Text): font size
 	 
 	 Byte 21 (bei Line): Line Dicke
+	 
+	 (After sending a command the connection will be closed by the client)
 
 #Network Low-Level
 	Port: 8088
