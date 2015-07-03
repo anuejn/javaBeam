@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.sfn_kassel.javabeam.client.JavabeamClient;
+import de.sfn_kassel.javabeam.client.JavaBeamClient;
 import de.sfn_kassel.javabeam.server.draw.Drawer;
 import de.sfn_kassel.javabeam.server.net.ConnectionHandler;
-import javafx.application.Application;
+import javafx.application.Application; 
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -109,7 +109,7 @@ public class Main extends Application {
 			fatal(e);
 		}
 		internalIp = internalIp.substring(1);
-		JavabeamClient me = new JavabeamClient(internalIp);
+		JavaBeamClient me = new JavaBeamClient(internalIp);
 		int fontSize = 42;
 		try {
 			me.drawText((int)drawCanvas.getWidth() / 2 - ((internalIp.length() * fontSize) / 4), (int)drawCanvas.getHeight() - 1, Color.BLACK, fontSize, internalIp);
@@ -133,7 +133,7 @@ public class Main extends Application {
 		System.out.println(msg);
 	}
 	
-	public static void drawHint(int x, int y, JavabeamClient me) throws IOException {
+	public static void drawHint(int x, int y, JavaBeamClient me) throws IOException {
 		me.drawCircle(x, y, 3, Color.DARK_GRAY);
 		me.drawLine(x + 10, y + 10, x + 20, y+20, 2, Color.DARK_GRAY);
 		me.drawLine(x+ 10, y+10, x+10, y+20, 2, Color.DARK_GRAY);

@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Random;
 
-import de.sfn_kassel.javabeam.client.JavabeamClient;
+import de.sfn_kassel.javabeam.client.JavaBeamClient;
 
 public class TestClient {
 
 	public static void main(String[] args) {
-		JavabeamClient beamer = new JavabeamClient("localhost");
+		JavaBeamClient beamer = new JavaBeamClient("localhost");
 		for (int i = 0; i < 10; i++) {
 			try {
 				int offsetX = new Random().nextInt(600);

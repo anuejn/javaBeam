@@ -3,14 +3,14 @@ package de.sfn_kassel.javabeam.client.example;
 import java.awt.Color;
 import java.io.IOException;
 
-import de.sfn_kassel.javabeam.client.JavabeamClient;
+import de.sfn_kassel.javabeam.client.JavaBeamClient;
 
 
 public class Smily {
 	public static void main(String[] args) throws IOException {
 		// Erstellt einen "JavabeamClient", der in der Variable "beamer" gespeichert wird.
 		// Der Parameter gibt dabei die IP des Computers an, auf dem das Bild gemalt wird
-		JavabeamClient beamer = new JavabeamClient("localhost");
+		JavaBeamClient beamer = new JavaBeamClient("localhost");
 		
 		// gelberKkreis
 		beamer.drawCircle(500, 300, 200, Color.YELLOW);

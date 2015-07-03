@@ -7,14 +7,14 @@ import java.net.Socket;
 import de.sfn_kassel.javabeam.util.ByteConversions;
 import de.sfn_kassel.javabeam.util.SpriteType;
 
-public class JavabeamClient {
+public class JavaBeamClient {
 	private String ip;
 
 	/**
 	 * 
 	 * @param ip Die IP-Adresse des Zielcomputers
 	 */
-	public JavabeamClient(String ip) {
+	public JavaBeamClient(String ip) {
 		this.ip = ip;
 	}
 
