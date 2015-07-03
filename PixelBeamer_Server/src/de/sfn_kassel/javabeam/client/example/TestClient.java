@@ -13,7 +13,7 @@ public class TestClient {
 		JavaBeamClient beamer = new JavaBeamClient("localhost");
 		for (int i = 0; i < 10; i++) {
 			try {
-				Thread.sleep(100l);
+				Thread.sleep(100);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -23,7 +23,7 @@ public class TestClient {
 				beamer.drawRectangle(10 + offsetX, 10 + offsetY, 100, 40, new Color((float)Math.random(), (float)Math.random(), (float)Math.random()));
 				beamer.drawText(15 + offsetX, offsetY + 30
 						, Color.BLACK, 12, InetAddress.getLocalHost().getHostName());
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
 				e.printStackTrace();
 			}
 		}

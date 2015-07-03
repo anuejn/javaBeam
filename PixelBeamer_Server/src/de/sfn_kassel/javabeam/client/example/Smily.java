@@ -7,7 +7,7 @@ import de.sfn_kassel.javabeam.client.JavaBeamClient;
 
 
 public class Smily {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		// Erstellt einen "JavabeamClient", der in der Variable "beamer" gespeichert wird.
 		// Der Parameter gibt dabei die IP des Computers an, auf dem das Bild gemalt wird
 		JavaBeamClient beamer = new JavaBeamClient("localhost");
