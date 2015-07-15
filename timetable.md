@@ -1,12 +1,12 @@
 #workshop:
-	-Einleitung	/ minecraft ist toll	(5 Min)
-	- Hello, World (20min)
-	- rechnen	   (10min)
-	- variable	   (10min)
-	- if		   (10min)
-	- while -> for (10min)
-	- Klasse 	   (20min)
-		-funktion  (10min)
-		-Mensch	   (10min)
-		-Menschen  (10min)
-	- Pixelfun (der rest)
+	-Einleitung	/ minecraft ist toll	(5 Min)		-Einfach so
+	- Hello, World (20min)					-Kinder laden eclipse und machen Projekt
+	- rechnen	   (10min)				-Kinder bauen in altem Projekt
+	- variable	   (10min)				- ^
+	- if		   (10min)				- ^
+	- while -> for (10min)					- ^
+	- Klasse 	   (20min)				-Neue Klasse. Evtl. in neues Package
+		-funktion  (10min)				-Kinder Erweitern Klasse
+		-Mensch	   (10min)				- Neue Klasse
+		-Menschen  (10min)				- ^
+	- Pixelfun (der rest)					- Kinder haben vorkonfiguriertes Eclipse
