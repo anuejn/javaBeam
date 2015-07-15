@@ -1,0 +1,12 @@
+#workshop:
+	-Einleitung	/ minecraft ist toll	(5 Min)
+	- Hello, World (20min)
+	- rechnen	   (10min)
+	- variable	   (10min)
+	- if		   (10min)
+	- while -> for (10min)
+	- Klasse 	   (20min)
+		-funktion  (10min)
+		-Mensch	   (10min)
+		-Menschen  (10min)
+	- Pixelfun (der rest)
